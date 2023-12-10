@@ -11,14 +11,17 @@ exports.scrapDCInfo = async function (url) {
   await page.goto(url, { timeout: 0 });
 
   // await for element to appear
-  await page.waitForSelector(".service-box  a[title='জেলা প্রশাসক ']");
+  const dcPageButton = ".service-box  a[title^='জেলা']";
+  await page.waitForSelector(dcPageButton);
 
   // Now click to the element
-  await page.click(".service-box  a[title='জেলা প্রশাসক ']");
+  await page.click(dcPageButton);
 
   // Now execute new function
-  await page.waitForSelector(".card-horizontal");
-  const dcDetails = await page.$eval(".card-horizontal", (el) => {
+  const dcInfoCard = ".card-horizontal";
+  await page.waitForSelector(dcInfoCard);
+
+  const dcDetails = await page.$eval(dcInfoCard, (el) => {
     const dcImage = el.querySelector("img");
     const dcName = el.querySelector(".card-body h4.card-title");
     const dcBatch = el.querySelector(".card-text p:nth-child(1)");

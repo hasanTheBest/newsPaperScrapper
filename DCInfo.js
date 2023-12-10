@@ -12,5 +12,7 @@ module.exports = function startScrapping(divRaj) {
     };
   });
 
+  console.dir(divRajDC);
+
   return divRajDC;
 };

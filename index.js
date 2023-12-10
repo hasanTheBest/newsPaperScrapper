@@ -1,7 +1,8 @@
 const startScrapping = require("./DCInfo");
 const puppeteer = require("puppeteer");
+const fsPromises = require("fs/promises");
 
-const url = "https://natore.gov.bd/";
+const url = "https://sirajganj.gov.bd/";
 
 async function main() {
   const browser = await puppeteer.launch({ headless: "new" });
@@ -13,14 +14,21 @@ async function main() {
   await page.goto(url, { timeout: 0 });
 
   // await for element to appear
-  await page.waitForSelector(".service-box  a[title='জেলা প্রশাসক ']");
+  const dcPageButton = ".service-box  a[title^='জেলা']";
+
+  // await page.waitForSelector(".service-box  a[title='জেলা প্রশাসক ']");
+  await page.waitForSelector(dcPageButton);
+
+  //document.querySelector("#left > div.blocks > div:nth-child(7) > div:nth-child(1) > div > ul > li:nth-child(1) > a")
 
   // Now click to the element
-  await page.click(".service-box  a[title='জেলা প্রশাসক ']");
+  await page.click(dcPageButton);
 
   // Now execute new function
-  await page.waitForSelector(".card-horizontal");
-  const dcDetails = await page.$eval(".card-horizontal", (el) => {
+  const dcInfoCard = ".card-horizontal";
+  await page.waitForSelector(dcInfoCard);
+
+  const dcDetails = await page.$eval(dcInfoCard, (el) => {
     const dcImage = el.querySelector("img");
     const dcName = el.querySelector(".card-body h4.card-title");
     const dcBatch = el.querySelector(".card-text p:nth-child(1)");
@@ -40,11 +48,9 @@ async function main() {
 
   // close the browser
   await browser.close();
-
-  console.log("main function is running.");
 }
 
-main();
+// main();
 
 const divRaj = [
   "sirajganj",
@@ -60,6 +66,8 @@ async function start(divRaj) {
   const result = await startScrapping(divRaj);
 
   console.dir(result);
+
+  fsPromises.writeFile("dc.json", JSON.stringify(result));
 }
 
-// start(divRaj);
+start(divRaj);
