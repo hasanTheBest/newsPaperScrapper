@@ -1,9 +1,7 @@
-const startScrapping = require("./DCInfo");
 const puppeteer = require("puppeteer");
 
-const url = "https://natore.gov.bd/";
-
-async function main() {
+exports.scrapDCInfo = async function (url) {
+  // const browser = await puppeteer.launch({ headless: false });
   const browser = await puppeteer.launch({ headless: "new" });
 
   // create a page
@@ -36,30 +34,8 @@ async function main() {
     };
   });
 
-  console.dir(dcDetails);
-
   // close the browser
   await browser.close();
 
-  console.log("main function is running.");
-}
-
-main();
-
-const divRaj = [
-  "sirajganj",
-  "pabna",
-  "rajshahi",
-  "natore",
-  "joypurhat",
-  "chapainawabganj",
-  "naogaon",
-];
-
-async function start(divRaj) {
-  const result = await startScrapping(divRaj);
-
-  console.dir(result);
-}
-
-// start(divRaj);
+  return dcDetails;
+};
