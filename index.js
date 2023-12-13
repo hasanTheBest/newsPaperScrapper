@@ -1,6 +1,7 @@
-const startScrapping = require("./DCInfo");
-const puppeteer = require("puppeteer");
+// const startScrapping = require("./DCInfo");
+// const puppeteer = require("puppeteer");
 const fsPromises = require("fs/promises");
+const { DCScrapper2 } = require("./DCScrapper2");
 
 const url = "https://sirajganj.gov.bd/";
 
@@ -62,12 +63,22 @@ const divRaj = [
   "naogaon",
 ];
 
+// async function start(divRaj) {
+//   const result = await startScrapping(divRaj);
+
+//   console.dir(result);
+
+//   fsPromises.writeFile("dc.json", JSON.stringify(result));
+// }
+
+// start(divRaj);
+
+// console.log("dc data", DCScrapper2(divRaj));
+
 async function start(divRaj) {
-  const result = await startScrapping(divRaj);
+  const result = await DCScrapper2(divRaj);
 
-  console.dir(result);
-
-  fsPromises.writeFile("dc.json", JSON.stringify(result));
+  fsPromises.writeFile("/dc.json", JSON.stringify(result));
 }
 
 start(divRaj);
