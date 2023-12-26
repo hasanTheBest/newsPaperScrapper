@@ -2,6 +2,7 @@
 // const puppeteer = require("puppeteer");
 const fsPromises = require("fs/promises");
 const { DCScrapper2 } = require("./DCScrapper2");
+const { prothomAlo } = require("./newsPaperScrapper/prothomAlo");
 
 const url = "https://sirajganj.gov.bd/";
 
@@ -55,11 +56,11 @@ async function main() {
 
 const divRaj = [
   "sirajganj",
-  "pabna",
-  "rajshahi",
-  "natore",
-  "joypurhat",
-  "chapainawabganj",
+  // "pabna",
+  // "rajshahi",
+  // "natore",
+  // "joypurhat",
+  // "chapainawabganj",
   "naogaon",
 ];
 
@@ -75,10 +76,18 @@ const divRaj = [
 
 // console.log("dc data", DCScrapper2(divRaj));
 
-async function start(divRaj) {
-  const result = await DCScrapper2(divRaj);
+async function start(url) {
+  const result = await prothomAlo(url);
 
-  fsPromises.writeFile("/dc.json", JSON.stringify(result));
+  fsPromises.writeFile("newsPAlo.json", JSON.stringify(result));
 }
 
-start(divRaj);
+start("https://www.prothomalo.com/");
+
+// async function start(divRaj) {
+//   const result = await DCScrapper2(divRaj);
+
+//   fsPromises.writeFile("dc.json", JSON.stringify(result));
+// }
+
+// start(divRaj);
