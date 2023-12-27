@@ -3,6 +3,8 @@
 const fsPromises = require("fs/promises");
 const { DCScrapper2 } = require("./DCScrapper2");
 const { prothomAlo } = require("./newsPaperScrapper/prothomAlo");
+const { nayaDiganta } = require("./newsPaperScrapper/nayadiganta");
+const { samakal } = require("./newsPaperScrapper/samakal");
 
 const url = "https://sirajganj.gov.bd/";
 
@@ -54,40 +56,12 @@ async function main() {
 
 // main();
 
-const divRaj = [
-  "sirajganj",
-  // "pabna",
-  // "rajshahi",
-  // "natore",
-  // "joypurhat",
-  // "chapainawabganj",
-  "naogaon",
-];
-
-// async function start(divRaj) {
-//   const result = await startScrapping(divRaj);
-
-//   console.dir(result);
-
-//   fsPromises.writeFile("dc.json", JSON.stringify(result));
-// }
-
-// start(divRaj);
-
-// console.log("dc data", DCScrapper2(divRaj));
-
 async function start(url) {
-  const result = await prothomAlo(url);
+  const result = await samakal(url);
 
-  fsPromises.writeFile("newsPAlo.json", JSON.stringify(result));
+  fsPromises.writeFile("samakal.json", JSON.stringify(result));
 }
 
-start("https://www.prothomalo.com/");
-
-// async function start(divRaj) {
-//   const result = await DCScrapper2(divRaj);
-
-//   fsPromises.writeFile("dc.json", JSON.stringify(result));
-// }
-
-// start(divRaj);
+start("https://samakal.com/");
+// start("https://www.dailynayadiganta.com/");
+// start("https://www.prothomalo.com/");

@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 // const { getNews } = require("./utilities/utilities");
 
-exports.prothomAlo = async function (url) {
+exports.nayaDiganta = async function (url) {
   const browser = await puppeteer.launch({
     defaultViewport: {
       width: 1920,
@@ -17,7 +17,7 @@ exports.prothomAlo = async function (url) {
   });
 
   // Wait for the news articles to load
-  await page.waitForSelector(".qn-x0");
+  await page.waitForSelector(".news-box");
 
   // Extract news articles
   const articles = await page.evaluate(() => {
@@ -27,26 +27,26 @@ exports.prothomAlo = async function (url) {
 
     function getNews(node) {
       const link = node.querySelector("a").href;
-      const title = node.querySelector(".headline-title").textContent.trim();
+      const title = node.querySelector("h2").innerText.trim();
 
-      const excerpt = node.querySelector("p.excerpt")?.textContent.trim();
-      const time = node.querySelector("time")?.textContent.trim();
-      const imgSrc = node.querySelector("img")?.src;
+      // const excerpt = node.querySelector("p.excerpt")?.textContent.trim();
+      // const time = node.querySelector("time")?.textContent.trim();
+      // const imgSrc = node.querySelector("img")?.src;
 
       return {
         title,
-        excerpt,
         link,
-        time,
-        imgSrc,
+        // excerpt,
+        // time,
+        // imgSrc,
       };
     }
 
-    articlesData.push(getNews(document.querySelector(".qn-x0 .BXtd8")));
+    articlesData.push(getNews(document.querySelector(".news-caption-lead")));
 
     selectors.push(
-      document.querySelectorAll(".qn-x0 .DnfWn"),
-      document.querySelectorAll(".aGkwG .left_image_right_news")
+      document.querySelectorAll(".news-box .col-md-9 .col-md-8 .news-caption"),
+      document.querySelectorAll(".lead-news-row .news-item")
     );
 
     selectors.forEach((selector) => {

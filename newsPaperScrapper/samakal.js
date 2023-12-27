@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 // const { getNews } = require("./utilities/utilities");
 
-exports.prothomAlo = async function (url) {
+exports.samakal = async function (url) {
   const browser = await puppeteer.launch({
     defaultViewport: {
       width: 1920,
@@ -17,45 +17,47 @@ exports.prothomAlo = async function (url) {
   });
 
   // Wait for the news articles to load
-  await page.waitForSelector(".qn-x0");
+  const DTopNewsSection = await page.waitForSelector(".DTopNewsSection");
 
   // Extract news articles
-  const articles = await page.evaluate(() => {
+  const articles = await page.evaluate((DTopNewsSection) => {
     // grab first heading
     const articlesData = [];
     const selectors = [];
 
     function getNews(node) {
       const link = node.querySelector("a").href;
-      const title = node.querySelector(".headline-title").textContent.trim();
+      const title = node.querySelector("h3")
+        ? node.querySelector("h3").innerText.trim()
+        : node.querySelector("h1").innerText.trim();
 
-      const excerpt = node.querySelector("p.excerpt")?.textContent.trim();
-      const time = node.querySelector("time")?.textContent.trim();
+      const excerpt = node.querySelector("p")?.innerText.trim();
+      const time = node.querySelector(".PublishTime")?.innerText.trim();
       const imgSrc = node.querySelector("img")?.src;
 
       return {
         title,
-        excerpt,
         link,
+        excerpt,
         time,
         imgSrc,
       };
     }
 
-    articlesData.push(getNews(document.querySelector(".qn-x0 .BXtd8")));
+    articlesData.push(getNews(DTopNewsSection.querySelector(".DHomeTopLead")));
 
     selectors.push(
-      document.querySelectorAll(".qn-x0 .DnfWn"),
-      document.querySelectorAll(".aGkwG .left_image_right_news")
+      DTopNewsSection.querySelectorAll(".DHomeLeadList3"),
+      DTopNewsSection.querySelectorAll(".leadTop3-wrap")
     );
 
     selectors.forEach((selector) => {
       const news = Array.from(selector).map((node) => getNews(node));
-      articlesData.push(news);
+      articlesData.push(...news);
     });
 
     return articlesData;
-  });
+  }, DTopNewsSection);
 
   await browser.close();
   return articles;
