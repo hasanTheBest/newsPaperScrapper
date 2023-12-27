@@ -5,6 +5,8 @@ const { DCScrapper2 } = require("./DCScrapper2");
 const { prothomAlo } = require("./newsPaperScrapper/prothomAlo");
 const { nayaDiganta } = require("./newsPaperScrapper/nayadiganta");
 const { samakal } = require("./newsPaperScrapper/samakal");
+const { jugantor } = require("./newsPaperScrapper/jugantor");
+const { inqilab } = require("./newsPaperScrapper/inqilab");
 
 const url = "https://sirajganj.gov.bd/";
 
@@ -57,11 +59,13 @@ async function main() {
 // main();
 
 async function start(url) {
-  const result = await samakal(url);
+  const result = await inqilab(url);
 
-  fsPromises.writeFile("samakal.json", JSON.stringify(result));
+  fsPromises.writeFile("inqilab.json", JSON.stringify(result));
 }
 
-start("https://samakal.com/");
+start("https://dailyinqilab.com/");
+// start("https://www.jugantor.com/");
+// start("https://samakal.com/");
 // start("https://www.dailynayadiganta.com/");
 // start("https://www.prothomalo.com/");
