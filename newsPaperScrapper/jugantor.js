@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 // const { getNews } = require("./utilities/utilities");
 
-exports.jugantor = async function (url) {
+exports.jugantor2 = async function (url) {
   const browser = await puppeteer.launch({
     defaultViewport: {
       width: 1920,
@@ -24,7 +24,7 @@ exports.jugantor = async function (url) {
     leadArea.firstElementChild.firstElementChild.lastElementChild
       .firstElementChild.children
   );
-  const leadNewsBottom = $$("#show-news > .col");
+  const leadNewsBottom = Array.from($("#show-news").children);
 
   // Extract news articles
   const articles = await page.evaluate(
@@ -76,3 +76,70 @@ exports.jugantor = async function (url) {
   await browser.close();
   return articles;
 };
+
+exports.jugantor = async function (url) {
+  const browser = await puppeteer.launch({
+    defaultViewport: {
+      width: 1920,
+      height: 1080,
+    },
+    headless: false,
+  });
+  const page = await browser.newPage();
+
+  // Navigate to Prothom Alo's website
+  await page.goto(url, {
+    waitUntil: "domcontentloaded",
+  });
+
+  // Wait for the news articles to load
+  const leadArea = await page.waitForSelector("#lead-news");
+
+
+  // Extract news articles
+  const articles = await page.evaluate(
+    (leadArea) => {
+      // grab first heading
+      const articlesData = [];
+      const selectors = [
+        Array.from(
+          leadArea.firstElementChild.firstElementChild.lastElementChild
+            .firstElementChild.children
+        ),
+        Array.from(document.querySelector("#show-news").children)
+
+      ]
+
+      function getNews(node) {
+        const link = node.querySelector("a").href;
+        const title = node.querySelector("h2")
+          ? node.querySelector("h2").innerText.trim()
+          : node.querySelector("figcaption").innerText.trim();
+        const imgSrc = node.querySelector("img")?.src;
+
+        // const excerpt = node.querySelector("p")?.innerText.trim();
+        // const time = node.querySelector(".PublishTime")?.innerText.trim();
+
+        return {
+          title,
+          link,
+          imgSrc,
+          // excerpt,
+          // time,
+        };
+      }
+
+      articlesData.push(getNews(document.querySelector("#lead-news #desktop-cat-lead")));
+
+      selectors.forEach(seletor => articlesData.push(...seletor.map(node => getNews(node))))
+
+
+      return articlesData;
+    },
+    leadArea
+  );
+
+  await browser.close();
+  return articles;
+};
+
