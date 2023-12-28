@@ -9,6 +9,7 @@ const { jugantor } = require("./newsPaperScrapper/jugantor");
 const { inqilab } = require("./newsPaperScrapper/inqilab");
 const { kalerkantha } = require("./newsPaperScrapper/kalerkantha");
 const { janakantha } = require("./newsPaperScrapper/janakantha");
+const { manabzamin } = require("./newsPaperScrapper/manabzamin");
 
 const url = "https://sirajganj.gov.bd/";
 
@@ -61,12 +62,13 @@ async function main() {
 // main();
 
 async function start(url) {
-  const result = await janakantha(url);
+  const result = await manabzamin(url);
 
-  fsPromises.writeFile("janakantha.json", JSON.stringify(result));
+  fsPromises.writeFile("manabzamin.json", JSON.stringify(result));
 }
 
-start("https://www.dailyjanakantha.com/");
+start("https://mzamin.com/");
+// start("https://www.dailyjanakantha.com/");
 // start("https://www.kalerkantho.com/");
 // start("https://dailyinqilab.com/");
 // start("https://www.jugantor.com/");
