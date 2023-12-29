@@ -15,14 +15,16 @@ const { bonikbarta } = require("./newsPaperScrapper/bonikbarta");
 const { thedailystar } = require("./newsPaperScrapper/thedailystar");
 const { dailysun } = require("./newsPaperScrapper/dailysun");
 const { newage } = require("./newsPaperScrapper/newage");
+const { newnation } = require("./newsPaperScrapper/newnation");
 
 async function start(url) {
-  const result = await newage(url);
+  const result = await newnation(url);
 
-  fsPromises.writeFile("newage.json", JSON.stringify(result));
+  fsPromises.writeFile("newnation.json", JSON.stringify(result));
 }
 
-start("https://www.newagebd.net/");
+start("https://newnation.live/");
+// start("https://www.newagebd.net/");
 // start("https://www.daily-sun.com/");
 // start("https://www.thedailystar.net/");
 // start("https://bonikbarta.net/");
