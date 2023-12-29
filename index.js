@@ -16,14 +16,16 @@ const { thedailystar } = require("./newsPaperScrapper/thedailystar");
 const { dailysun } = require("./newsPaperScrapper/dailysun");
 const { newage } = require("./newsPaperScrapper/newage");
 const { newnation } = require("./newsPaperScrapper/newnation");
+const { bangladeshToday } = require("./newsPaperScrapper/bangladeshToday");
 
 async function start(url) {
-  const result = await newnation(url);
+  const result = await bangladeshToday(url);
 
-  fsPromises.writeFile("newnation.json", JSON.stringify(result));
+  fsPromises.writeFile("bangladeshToday.json", JSON.stringify(result));
 }
 
-start("https://newnation.live/");
+start("https://thebangladeshtoday.com/");
+// start("https://newnation.live/");
 // start("https://www.newagebd.net/");
 // start("https://www.daily-sun.com/");
 // start("https://www.thedailystar.net/");
