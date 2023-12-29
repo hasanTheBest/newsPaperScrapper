@@ -10,24 +10,20 @@ exports.bonikbarta = async function (url) {
   });
   const page = await browser.newPage();
 
-  // Navigate to Prothom Alo's website
   await page.goto(url, {
     waitUntil: "domcontentloaded",
   });
 
-  // Wait for the news articles to load
-  const leadArea = await page.waitForSelector(".wrapper");
+  await page.waitForSelector(".lead_exclusive");
 
   // Extract news articles
-  const articles = await page.evaluate((leadArea) => {
+  const articles = await page.evaluate(() => {
     // grab first heading
     const articlesData = [];
 
     function getNews(node) {
       const link = node.querySelector("a").href;
-      const title = node.querySelector("h2")
-        ? node.querySelector("h2").innerText.trim()
-        : node.querySelector("h4").innerText.trim();
+      const title = node.querySelector("h4").innerText.trim();
       const imgSrc = node.querySelector("img")?.src;
       // const excerpt = node.querySelector(".intro")?.innerText.trim();
 
@@ -44,12 +40,12 @@ exports.bonikbarta = async function (url) {
 
     articlesData.push(
       ...Array.from(
-        leadArea.querySelector(".lead_exclusive").parentElement.children
+        document.querySelector(".lead_exclusive").parentElement.children
       ).map((node) => getNews(node))
     );
 
     return articlesData;
-  }, leadArea);
+  });
 
   await browser.close();
   return articles;
