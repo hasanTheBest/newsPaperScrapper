@@ -12,14 +12,16 @@ const { songbad } = require("./newsPaperScrapper/songbad");
 const { amadersomoy } = require("./newsPaperScrapper/amadershomoy");
 const { bhorerkagoj } = require("./newsPaperScrapper/bhorerkagoj");
 const { bonikbarta } = require("./newsPaperScrapper/bonikbarta");
+const { thedailystar } = require("./newsPaperScrapper/thedailystar");
 
 async function start(url) {
-  const result = await bonikbarta(url);
+  const result = await thedailystar(url);
 
-  fsPromises.writeFile("bonikbarta.json", JSON.stringify(result));
+  fsPromises.writeFile("thedailystar.json", JSON.stringify(result));
 }
 
-start("https://bonikbarta.net/");
+start("https://www.thedailystar.net/");
+// start("https://bonikbarta.net/");
 // start("https://www.bhorerkagoj.com/");
 // start("https://www.dainikamadershomoy.com/");
 // start("https://sangbad.net.bd/");

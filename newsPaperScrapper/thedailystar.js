@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-exports.bonikbarta = async function (url) {
+exports.thedailystar = async function (url) {
   const browser = await puppeteer.launch({
     defaultViewport: {
       width: 1920,
@@ -14,7 +14,7 @@ exports.bonikbarta = async function (url) {
     waitUntil: "domcontentloaded",
   });
 
-  await page.waitForSelector("body");
+  await page.waitForSelector(".pane-home-top-v5");
 
   // Extract news articles
   const articles = await page.evaluate(() => {
@@ -23,24 +23,24 @@ exports.bonikbarta = async function (url) {
 
     function getNews(node) {
       const link = node.querySelector("a").href;
-      const title = node.querySelector("h4").innerText.trim();
-      const imgSrc = node.querySelector("img")?.src;
-      // const excerpt = node.querySelector(".intro")?.innerText.trim();
+      const title = node.querySelector(".title").innerText.trim();
+      const imgSrc = node.querySelector("img")?.srcset;
+      const excerpt = node.querySelector(".intro")?.innerText.trim();
+      const time = node.querySelector(".interval")?.innerText.trim();
 
-      // const time = node.querySelector(".PublishTime")?.innerText.trim();
       return {
         title,
         link,
         imgSrc,
-        // excerpt,
-        // time,
+        excerpt,
+        time,
       };
     }
 
     articlesData.push(
-      ...Array.from(
-        document.querySelector(".lead_exclusive").parentElement.children
-      ).map((node) => getNews(node))
+      ...Array.from(document.querySelectorAll(".pane-home-top-v5 .card")).map(
+        (node) => getNews(node)
+      )
     );
 
     return articlesData;
