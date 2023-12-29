@@ -10,6 +10,8 @@ const { inqilab } = require("./newsPaperScrapper/inqilab");
 const { kalerkantha } = require("./newsPaperScrapper/kalerkantha");
 const { janakantha } = require("./newsPaperScrapper/janakantha");
 const { manabzamin } = require("./newsPaperScrapper/manabzamin");
+const { jaijaidin } = require("./newsPaperScrapper/jaijaidin");
+const { songbad } = require("./newsPaperScrapper/songbad");
 
 const url = "https://sirajganj.gov.bd/";
 
@@ -62,12 +64,14 @@ async function main() {
 // main();
 
 async function start(url) {
-  const result = await manabzamin(url);
+  const result = await songbad(url);
 
-  fsPromises.writeFile("manabzamin.json", JSON.stringify(result));
+  fsPromises.writeFile("songbad.json", JSON.stringify(result));
 }
 
-start("https://mzamin.com/");
+start("https://sangbad.net.bd/");
+// start("https://www.jaijaidinbd.com/");
+// start("https://mzamin.com/");
 // start("https://www.dailyjanakantha.com/");
 // start("https://www.kalerkantho.com/");
 // start("https://dailyinqilab.com/");
