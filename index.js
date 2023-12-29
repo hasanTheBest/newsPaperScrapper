@@ -14,14 +14,16 @@ const { bhorerkagoj } = require("./newsPaperScrapper/bhorerkagoj");
 const { bonikbarta } = require("./newsPaperScrapper/bonikbarta");
 const { thedailystar } = require("./newsPaperScrapper/thedailystar");
 const { dailysun } = require("./newsPaperScrapper/dailysun");
+const { newage } = require("./newsPaperScrapper/newage");
 
 async function start(url) {
-  const result = await dailysun(url);
+  const result = await newage(url);
 
-  fsPromises.writeFile("dailysun.json", JSON.stringify(result));
+  fsPromises.writeFile("newage.json", JSON.stringify(result));
 }
 
-start("https://www.daily-sun.com/");
+start("https://www.newagebd.net/");
+// start("https://www.daily-sun.com/");
 // start("https://www.thedailystar.net/");
 // start("https://bonikbarta.net/");
 // start("https://www.bhorerkagoj.com/");
