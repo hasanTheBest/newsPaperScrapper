@@ -18,14 +18,16 @@ const { newage } = require("./newsPaperScrapper/newage");
 const { newnation } = require("./newsPaperScrapper/newnation");
 const { bangladeshToday } = require("./newsPaperScrapper/bangladeshToday");
 const { dailyObserver } = require("./newsPaperScrapper/dailyObserver");
+const { businessStandard } = require("./newsPaperScrapper/businessStandard");
 
 async function start(url) {
-  const result = await dailyObserver(url);
+  const result = await businessStandard(url);
 
-  fsPromises.writeFile("dailyObserver.json", JSON.stringify(result));
+  fsPromises.writeFile("businessStandard.json", JSON.stringify(result));
 }
 
-start("https://www.observerbd.com/");
+start("https://www.tbsnews.net/");
+// start("https://www.observerbd.com/");
 // start("https://thebangladeshtoday.com/");
 // start("https://newnation.live/");
 // start("https://www.newagebd.net/");
