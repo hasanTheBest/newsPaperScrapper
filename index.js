@@ -19,14 +19,16 @@ const { newnation } = require("./newsPaperScrapper/newnation");
 const { bangladeshToday } = require("./newsPaperScrapper/bangladeshToday");
 const { dailyObserver } = require("./newsPaperScrapper/dailyObserver");
 const { businessStandard } = require("./newsPaperScrapper/businessStandard");
+const { dhakaTribune } = require("./newsPaperScrapper/dhakaTribune");
 
 async function start(url) {
-  const result = await businessStandard(url);
+  const result = await dhakaTribune(url);
 
-  fsPromises.writeFile("businessStandard.json", JSON.stringify(result));
+  fsPromises.writeFile("dhakaTribune.json", JSON.stringify(result));
 }
 
-start("https://www.tbsnews.net/");
+start("https://www.dhakatribune.com/");
+// start("https://www.tbsnews.net/");
 // start("https://www.observerbd.com/");
 // start("https://thebangladeshtoday.com/");
 // start("https://newnation.live/");
